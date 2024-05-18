@@ -21,8 +21,11 @@ from deepface.modules import (
     detection,
     streaming,
     verificationEmbbeding,
-    
+    representationEmbedding,
+    verificationList,
 )
+
+from deepface.models.FacialRecognition import FacialRecognition
 from deepface import __version__
 
 logger = Logger(module="DeepFace")
@@ -153,6 +156,18 @@ def verify_embeddings(
         model_name=model_name,
         distance_metric=distance_metric,
     )
+
+def verify_list(
+    emb1: np.ndarray,
+    embeddings_dict: Dict[str, List[np.ndarray]],
+    model_name: str = "VGG-Face",
+    distance_metric: str = "cosine",
+) -> Dict[str, Any]:
+    return verificationList.verify_embeddings_with_list(emb1=emb1,
+                                                        embeddings_dict=embeddings_dict,
+                                                        model_name=model_name,
+                                                        distance_metric=distance_metric)
+
 
 def analyze(
     img_path: Union[str, np.ndarray],
@@ -391,6 +406,28 @@ def represent(
         expand_percentage=expand_percentage,
         normalization=normalization,
     )
+
+
+
+def representOpt(
+    img_path: Union[str, np.ndarray],
+    model: FacialRecognition,
+    enforce_detection: bool = False,
+    detector_backend: str = "yunet",
+    align: bool = True,
+    expand_percentage: int = 0,
+    normalization: str = "base",
+) -> List[Dict[str, Any]]:
+    return representationEmbedding.represent(img_path=img_path,
+                                             model=model,
+                                             enforce_detection=enforce_detection,
+                                             detector_backend=detector_backend,
+                                             align=align,
+                                             expand_percentage=expand_percentage,
+                                             normalization=normalization
+
+                                             )
+
 
 
 def stream(

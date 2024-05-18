@@ -50,14 +50,7 @@ def analysis(
         logger.info("Emotion model is just built")
     # -----------------------
     # call a dummy find function for db_path once to create embeddings in the initialization
-    DeepFace.find(
-        img_path=np.zeros([224, 224, 3]),
-        db_path=db_path,
-        model_name=model_name,
-        detector_backend=detector_backend,
-        distance_metric=distance_metric,
-        enforce_detection=False,
-    )
+   
     # -----------------------
     # visualization
     freeze = False
@@ -91,7 +84,7 @@ def analysis(
                 faces = []
                 for face_obj in face_objs:
                     facial_area = face_obj["facial_area"]
-                    if facial_area["w"] <= 130:  # discard small detected faces
+                    if facial_area["w"] <= 0:  # 130 discard small detected faces
                         continue
                     faces.append(
                         (
